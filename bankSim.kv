@@ -1,0 +1,198 @@
+<LaneServer>
+    canvas:
+        Color:
+            rgba: 0, 0, 0, 1
+        #Rectangle: 
+        #    pos: self.pos
+        #    size: 100, 100
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2
+        Color:
+            rgba: 0, 1, 0, 1
+        Rectangle: 
+            pos: self.x - 610, self.y
+            size: 600, 100
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle: 
+            pos: self.x - 615, self.y + 5
+            size: 600, 90
+    Label: 
+        id: timer_label
+        text: root.timer_text
+        pos: root.x, root.y + 90
+        size: 100, 50
+        font_size: 20
+        color: 0, 0, 0, 1
+        halign: 'center'
+        valign: 'middle'
+    Label: 
+        id: count_label
+        text: root.laneCount_text
+        pos: root.x - 750, root.y + 22
+        size: 100, 50
+        font_size: 50
+        color: 0, 0, 0, 1
+        halign: 'center'
+        valign: 'middle'
+        #text_size: self.size
+    #Label:
+    #    id: timer_label
+    #    text: root.timer_text
+    #    pos: self.x, self.y + 120  # Position above the server
+    #    size: 150, 40
+    #    font_size: 18
+    #    color: 1, 0.5, 0, 1
+    #    bold: True
+    #    outline_width: 2
+    #    outline_color: 0, 0, 0, 1
+
+<Customer>
+    canvas:
+        Color:
+            rgba: self.color
+        Ellipse: 
+            pos: self.pos
+            size: 80, 80
+    Label:
+        text: root.name_text
+        pos: root.x - 10, root.y - 50
+        size: 100, 50
+        font_size: 15
+        color: root.color
+        halign: 'center'
+        valign: 'middle'
+
+<ControlPanel>
+    #canvas.after:
+    #    Color:
+    #        rgba: 0, 0, 1, 1  # Blue border
+    #    Line:
+    #        rectangle: self.x, self.y, self.width, self.height
+    #        width: 2
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            id: startButton
+            text: "Start Simulation"
+            color: 0, 1, 0, 1
+            size_hint: 1, 1
+            size: 100, 50
+            on_release: root.startSimulation()
+        Button:
+            id: resetButton
+            text: "Reset Simulation"
+            color: 1, 0, 0, 1
+            size_hint: 1, 1
+            size: 100, 50
+            on_release: root.resetSimulation()
+        Button:
+            id: copyLogButton
+            text: "Copy Console Text"
+            size_hint: 1, 1
+            size: 100, 50
+            on_release: root.copyLog()
+        Spinner:
+            id: scenarioSpinner
+            size_hint: 1, 1
+            text: 'Select Scenario'
+            color: 1, 1, 0, 1
+            values: '1 Server : 1 Lane', '2 Servers : 1 Lane', '2 Servers : 2 Lane (ex)', '2 Servers : 2 Lane (sd)'
+            on_text: root.on_scenario_selected(self, self.text)
+        Button:
+            id: allCustomersButton
+            text: "Print All Customers"
+            size_hint: 1, 1
+            size: 100, 50
+            on_release: root.printCompletedCustomers()
+        
+
+<ConsolePanel>  
+    canvas.after:
+        Color:
+            rgba: 1, 1, 0, 1  # Red border
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2  # Border thickness
+    BoxLayout:
+        orientation: 'vertical'
+        ScrollView:
+            id: log_scroll
+            size_hint_y: 1 
+            size_hint_x: 1.9
+            width: 800
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 10
+            bar_color: 0.7, 0.7, 0.7, 1
+            bar_inactive_color: 0.5, 0.5, 0.5, 0.5
+            effect_cls: "ScrollEffect"
+            scroll_type: ['bars', 'content']
+
+            Label:
+                id: consoleLog
+                text: app.logText
+                size_hint_y: None
+                height: self.texture_size[1]#max(self.minimum_height, log_scroll.height)
+                text_size: log_scroll.width, None
+                halign: 'left'
+                valign: 'top'
+                padding: 10, 10
+                markup: True
+
+<SimulationCanvas>
+    canvas.after:
+        Color:
+            rgba: 1, 0, 0, 1  # Red border
+        Line:
+            rectangle: self.x, self.y, self.width, self.height
+            width: 2  # Border thickness
+    canvas:
+        Rectangle:
+            pos: 0, self.height
+            size: self.width, self.height
+    Label: 
+        text: "Bank Queue Simulation" #root.scenario_label
+        pos: root.x + 480, root.y + 320
+        size: 100, 50
+        font_size: 20
+        color: 0, 0, 0, 1
+        halign: 'center'
+        valign: 'middle'
+    Label: 
+        id: scenario_label
+        text: root.scenario_label
+        pos: root.x + 480, root.y + 300
+        size: 100, 50
+        font_size: 15
+        color: 0, 0, 0, 1
+        halign: 'center'
+        valign: 'middle'
+    Label: 
+        id: averageWaitTime_label
+        text: root.avgWTText
+        pos: root.x + 45, root.y + 30 #+ #- 30
+        size: 100, 50
+        font_size: 15
+        color: 0, 0, 0, 1
+        halign: 'left'
+        valign: 'middle'
+    Label: 
+        id: averageTurnaroundTime_label
+        text: root.avgTATText
+        pos: root.x + 60, root.y + 10
+        size: 100, 50
+        font_size: 15
+        color: 0, 0, 0, 1
+        halign: 'left'
+        valign: 'middle'
+    Label: 
+        id: averageThroughputlabel
+        text: root.aveThroughputText
+        pos: root.x + 60, root.y - 10
+        size: 100, 50
+        font_size: 15
+        color: 0, 0, 0, 1
+        halign: 'left'
+        valign: 'middle'
