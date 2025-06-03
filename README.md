@@ -24,4 +24,7 @@ A bank line simulator made by Josefe Johnatan M. Gillego. Made with Python (Back
 ### Future Improvements:
 1. Responsive and resizeable window. (Animation is bound to an absolute position in the canvas.)
 2. Front-end controls for simulation parameters. (Currently, the only way to change *arrival intervals*, *task time randomization range*, *simulation seed*, *time factr*, and *the states of the lines and tellers* are by editing the variables found in `SimulationCanvas.py` and `Globals.py`)
-3. Upgrade matplotlib. (Any mouse inputs done inside the matplotlib graphs causes a crash).
+3. Upgrade matplotlib. (**CRITICAL ERROR** Any mouse inputs done inside the matplotlib graphs causes a crash).
+
+### Other notes:
+*You can change the random module's seed through `BankSim.py`*
