@@ -13,14 +13,12 @@ class Customer(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.color = [
-            random.random(),      # Random red (0.0-1.0)
-            random.random(),      # Random green (0.0-1.0)
-            random.random(),      # Random blue (0.0-1.0)
-            1                     # Full opacity
+            random.random(),
+            random.random(),     
+            random.random(),    
+            1                    
         ]
         
-        #self.pos = (750 + 110, 439) # <-- use as reference for lane 2
-        #self.pos = (860, 439)
         self.pos = (10, 510) # <-- use as reference for customer spawning
 
         self.id = 0

@@ -87,6 +87,7 @@ class SimulationCanvas(Widget):
         Clock.schedule_interval(self.updateMetricsLabels, 1.0)
 
     """SIMULATION COMPONENT""" 
+    
     def simulate(self):
         global globalCurrentTime
         if (self.cooldown <= 0):
@@ -130,6 +131,8 @@ class SimulationCanvas(Widget):
             # ConsoleManager.log(f"Cooldown: {self.cooldown:.2f} seconds remaining", '#ff0000')
             self.lane1.processCustomers(self.lane2, self.currentScenario)
             self.lane2.processCustomers(self.lane1, self.currentScenario)
+    
+    """END OF SIMULATION COMPONENT"""
 
     def reset(self):
         for customer in self.customers:
@@ -141,7 +144,7 @@ class SimulationCanvas(Widget):
         
         self.metrics = SimulationMetrics()
         
-        self.customerCounter = 1
+        self.customerCount = 1
         self.lastCustomerArrivalTime = 0
         self.cooldown = 0
 
@@ -208,7 +211,6 @@ class SimulationCanvas(Widget):
             ConsoleManager.log("Scenario 4: Two servers, two lanes (servers can help other lane)", '#ffcc00')
 
     def updateMetricsLabels(self, dt):
-        """Update the metrics display labels"""
         if hasattr(self, 'metrics'):
             # Get metrics
             avg_wait = self.metrics.get_average_waiting_time()

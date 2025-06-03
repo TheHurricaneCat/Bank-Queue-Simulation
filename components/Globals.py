@@ -31,7 +31,6 @@ def resetGlobalTime():
     frameCounter = 0
 
 def getFormatTime():
-    """Format global time as MM:SS"""
     hours = globalCurrentTime // 3600
     minutes = (globalCurrentTime % 3600) // 60
     seconds = globalCurrentTime % 60
@@ -41,14 +40,13 @@ def getFrameCounter():
     return frameCounter
 
 def formatTimeDifference(seconds):
-        """Format time difference in a readable format"""
-        minutes = int(seconds // 60)
-        seconds = int(seconds % 60)
-        
-        if minutes > 0:
-            return f"{minutes}m {seconds}s"
-        else:
-            return f"{seconds}s"
+    minutes = int(seconds // 60)
+    seconds = int(seconds % 60)
+    
+    if minutes > 0:
+        return f"{minutes}m {seconds}s"
+    else:
+        return f"{seconds}s"
 
 class ConsolePanel(BoxLayout):  # Change from Widget to BoxLayout for better layout
     logText = StringProperty("")
@@ -76,7 +74,6 @@ class ConsolePanel(BoxLayout):  # Change from Widget to BoxLayout for better lay
             self.logText = '\n'.join(lines[:self.maxLines])
     
     def clear_log(self):
-        """Clear the console log"""
         self.logText = ""
 
 consoleLog = ConsolePanel()
