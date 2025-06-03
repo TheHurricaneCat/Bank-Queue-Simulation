@@ -18,7 +18,7 @@ class MainWidget(BoxLayout):
         super().__init__(orientation='vertical', **kwargs)
         
         # set a seed for reproducibility
-        # random.seed(42)
+        random.seed(42)
         
         self.simulation = SimulationCanvas()
         self.simulation.size_hint_y = 0.5

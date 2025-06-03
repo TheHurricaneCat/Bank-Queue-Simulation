@@ -7,6 +7,25 @@ from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 
 from .Globals import getGlobalTime
 
+# Workaround for touch events causing a program crash
+# Overloads and consumes touch events
+class NonInteractiveCanvas(FigureCanvasKivyAgg):
+    def on_touch_down(self, touch):
+        if self.collide_point(*touch.pos):
+            return True
+        return super().on_touch_down(touch)
+    
+    def on_touch_move(self, touch):
+        if self.collide_point(*touch.pos):
+            return True
+        return super().on_touch_move(touch)
+    
+    def on_touch_up(self, touch):
+        if self.collide_point(*touch.pos):
+            return True
+        return super().on_touch_up(touch)
+
+
 class GraphPanel(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -25,7 +44,7 @@ class GraphPanel(BoxLayout):
     def create_plots(self):
         # Create figure with subplots
         self.fig, self.axes = plt.subplots(3, 1, figsize=(8, 6))
-        
+
         # Configure plots
         titles = ['Average Waiting Time', 'Average Turnaround Time', 'Throughput']
         ylabels = ['Time (seconds)', 'Time (seconds)', 'Customers/min']
@@ -50,7 +69,7 @@ class GraphPanel(BoxLayout):
         self.fig.subplots_adjust(hspace=0.5)
         
         # Create the canvas widget
-        self.canvas_widget = FigureCanvasKivyAgg(figure=self.fig)
+        self.canvas_widget = NonInteractiveCanvas(figure=self.fig)
         self.add_widget(self.canvas_widget)
     
     def update_data(self, simulation):
